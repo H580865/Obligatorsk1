@@ -26,8 +26,7 @@ public class RPCServer {
 	}
 	
 	public void run() {
-		
-		System.out.println("RPC SERVER RUN - Services: " + services.size());
+System.out.println("RPC SERVER RUN - Services: " + services.size());
 		
 		connection = msgserver.accept(); 
 		
@@ -39,17 +38,19 @@ public class RPCServer {
 	    
 		   int rpcid;
 		   
+		   byte[] b = connection.receive().getData();
+		   rpcid = b[0];
+		   RPCImpl i = services.get(rpcid);
+		   byte[] a = i.invoke(b);
+		   connection.send(new Message(a));
+		   
 		   // TODO
 		   // - receive message containing RPC request
 		   // - find the identifier for the RPC methods to invoke
-		   // - lookup the method to be invoked
+		   // - lookup the methods to be invoked
 		   // - invoke the method
 		   // - send back message containing RPC reply
 			
-		   if (true) {
-			   throw new UnsupportedOperationException(TODO.method());
-		   }
-		   
 		   if (rpcid == RPCCommon.RPIDSTOP) {
 			   stop = true;
 		   }

@@ -2,6 +2,8 @@ package no.hvl.dat110.rpc;
 
 import java.util.Arrays;
 
+
+
 import no.hvl.dat110.TODO;
 
 public class RPCUtils {
@@ -13,39 +15,27 @@ public class RPCUtils {
 	
 	public static byte[] marshallString(byte rpcid, String str) {
 
-		byte[] encoded;
-
 		// TODO: marshall RPC identifier and string into byte array
-
-		if (true) {
-			throw new UnsupportedOperationException(TODO.method());
-		}
-
-		return encoded;
+				byte[] encoded = new byte[str.getBytes().length+1];	
+				encoded[0] = rpcid;
+				int i = 1;
+				for (byte b:str.getBytes()) {
+					encoded[i++] = b;
+				}
+				return encoded;
 	}
 
 	public static String unmarshallString(byte[] data) {
 
-		String decoded;
-
-		// TODO: unmarshall String contained in data into decoded
-
-		if (true) {
-			throw new UnsupportedOperationException(TODO.method());
-		}
-
-		return decoded;
+		return new String(data,1,data.length-1);
 	}
 
 	public static byte[] marshallVoid(byte rpcid) {
 
-		byte[] encoded;
-
+		byte[] encoded = new byte[1];
+		encoded[0] = rpcid;
+		
 		// TODO: marshall RPC identifier in case of void type
-
-		if (true) {
-			throw new UnsupportedOperationException(TODO.method());
-		}
 
 		return encoded;
 
@@ -79,26 +69,25 @@ public class RPCUtils {
 
 	public static byte[] marshallInteger(byte rpcid, int x) {
 
-		byte[] encoded;
-
-		// TODO: marshall RPC identifier and string into byte array
-
-		if (true) {
-			throw new UnsupportedOperationException(TODO.method());
+		byte[] encoded = new byte[5];
+		encoded[0] = rpcid;
+		
+		for(int i = 0; i < 4; i++) {
+			encoded[i+1] = (byte) (x >> (i*8));
 		}
+		// TODO: marshall RPC identifier and string into byte array
 
 		return encoded;
 	}
 
 	public static int unmarshallInteger(byte[] data) {
 
-		int decoded;
+		int decoded = 0;
+		for (int i = 0 ; i < 4 ; i++) {
+			decoded += Byte.toUnsignedInt(data[i+1]) << (i*8);
+		}
 
 		// TODO: unmarshall integer contained in data
-
-		if (true) {
-			throw new UnsupportedOperationException(TODO.method());
-		}
 
 		return decoded;
 
